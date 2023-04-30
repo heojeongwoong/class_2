@@ -1,0 +1,36 @@
+Siha a, b, c;
+
+void setup() {
+  size(600, 300);
+  a = new Siha(100, 100, 100);
+  b = new Siha(250, 150, 150);
+  c = new Siha(400, 200, 200);
+  a.Life(); 
+  b.Life(); 
+  c.Life();
+}
+
+class Siha {
+  float x, y, d;
+  
+  Siha() {
+    this(width/2, 0, 0); // Default constructor sets x to width/2
+  };
+  
+  Siha(float y, float d) {
+    this(width/2, y, d); // Second constructor sets y and d
+  }
+  
+  Siha(float x, float y, float d) {
+    this.x = x;
+    this.y = y;
+    this.d = d;
+  }
+  
+  void Life() {
+    ellipse(x, y, d, d/3*2);
+    circle(x-d/5, y-d/6, d/5);
+    arc(x+d/5, y-d/6, d/5, d/5, PI, 2*PI);
+    arc(x, y, d*2/3, d/5, 0, PI);
+  }
+}
