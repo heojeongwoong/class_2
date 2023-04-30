@@ -1,0 +1,34 @@
+Siha a, b, c;
+
+void setup() {
+  size(600, 300);
+  a = new Siha(100, 100, 100, color(255, 0, 0)); // 빨간색 얼굴
+  b = new Siha(500, 100, 150, color(0, 255, 0)); // 초록색 얼굴
+  c = new Siha(random(0, width), random(0, height), 50, color(0, 0, 255)); // 파란색 얼굴
+  a.Life(); b.Life(); c.Life();
+}
+
+class Siha {
+  float x, y, d;
+  color faceColor;
+  
+  Siha(float p, float q, float r, color faceColor) {
+    x = p; y = q; d = r; this.faceColor = faceColor;
+  }
+  
+  Siha() {
+    x = random(0, width);
+    y = random(0, height);
+    d = 50;
+    faceColor = color(255);
+  }
+  
+  void Life() {
+    fill(faceColor);
+    ellipse(x, y, d, d / 3 * 2);
+    fill(255);
+    circle(x - d / 5, y - d / 6, d / 5);
+    arc(x + d / 5, y - d / 6, d / 5, d / 5, PI, 2 * PI);
+    arc(x, y, d * 2 / 3, d / 5, 0, PI);
+  }
+}
