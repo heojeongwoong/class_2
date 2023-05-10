@@ -1,0 +1,86 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class CITY {
+public:
+    // constructor
+    CITY(string city_name) {
+        C = new float[12];
+        F = new float[12];
+
+        // read file and store Celsius temperature in array C[]
+        ifstream infile(city_name.c_str());
+        if (!infile) {
+            cout << "Cannot open file!" << endl;
+            return;
+        }
+
+        for (int i = 0; i < 12; i++) {
+            infile >> C[i];
+        }
+        infile.close();
+
+        // convert Celsius to Fahrenheit
+        CtoF();
+    }
+
+    // member data
+    float* C;
+    float* F;
+
+    // member function
+    void CtoF() {
+        for (int i = 0; i < 12; i++) {
+            F[i] = (C[i] * 9 / 5.0) + 32;
+        }
+    }
+
+    // destructor
+    ~CITY() {
+        delete[] C;
+        delete[] F;
+    }
+};
+
+int main() {
+    string cityNames[4] = { "Seoul.txt", "Newyork.txt", "London.txt", "Paris.txt" };
+    CITY* cities[4];
+
+    for (int i = 0; i < 4; i++) {
+        cities[i] = new CITY(cityNames[i]);
+        cout << cityNames[i] << endl;
+    }
+  
+        for (int i = 0; i < 4; i++) {
+            cout << cityNames[i] << " Celsius Temperatures: ";
+            for (int j = 0; j < 12; j++) {
+                cout << cities[i]->C[j] << " ";
+            }
+            cout << "\n";
+        } 
+    ofstream outfile("Result.txt");
+    if (!outfile) {
+        cout << "No FIle!" << endl;
+        return 444;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        outfile << cityNames[i] << " Celsius Temperatures: ";
+        for (int j = 0; j < 12; j++) {
+            outfile << cities[i]->C[j] << " ";
+        }
+        outfile << "\n" << cityNames[i] << " Fahrenheit Temperatures: ";
+        for (int j = 0; j < 12; j++) {
+            outfile << cities[i]->F[j] << " ";
+        }
+        outfile << "\n";
+    }
+    outfile.close();
+
+    for (int i = 0; i < 4; i++) {
+        delete cities[i];
+    }
+    return 0;
+}
