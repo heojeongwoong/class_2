@@ -1,0 +1,120 @@
+class joker {
+  float x, y, speedX, speedY, dx, dy;
+  boolean left, right, up, down;
+
+  joker(float x, float y, float speedX, float speedY, float dx, float dy) {
+    this.x = x;
+    this.y = y;
+    this.speedX = speedX;
+    this.speedY = speedY;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  void act() {
+// 얼굴
+    fill(255, 235, 205);
+    ellipse(x, y, 200, 200);
+
+    // 코
+    fill(255, 0, 0);
+    circle(x, y, 50);
+
+    // 귀
+    fill(0, 255, 0);
+    ellipse(x - 110, y - 60, 50, 50);
+    ellipse(x + 110, y - 60, 50, 50);
+
+    // 눈
+    fill(255);
+    ellipse(x - 70, y, 50, 50);
+    ellipse(x + 70, y, 50, 50);
+    fill(0);
+    ellipse(x - 70, y, 20, 20);
+    ellipse(x + 70, y, 20, 20);
+
+    // 입
+    stroke(0);
+    strokeWeight(3);
+    arc(x, y + 50, 100, 80, 0, PI);
+
+    // 몸통
+    fill(255, 0, 0);
+    rect(x - 50, y + 100, 100, 100, 20);
+
+    // 팔
+    fill(0, 255, 0);
+    rect(x - 140, y + 100, 60, 30, 20);
+    rect(x - 90, y + 100, 60, 30, 20);
+    rect(x + 30, y + 100, 60, 30, 20);
+    rect(x + 80, y + 100, 60, 30, 20);
+  }
+
+  void move() {
+    if (dx == 0 && dy == 0) { // controlled by keys
+      if (left && x > 0) {
+        x -= speedX;
+      }
+      if (right && x < width) {
+        x += speedX;
+      }
+      if (up && y > 0) {
+        y -= speedY;
+      }
+      if (down && y < height) {
+        y += speedY;
+      }
+    } else { // moves automatically
+      x += dx;
+      y += dy;
+      // Bounce if the joker hits the edge of the window
+      if (x > width || x < 0) dx = -dx;
+      if (y > height || y < 0) dy = -dy;
+    }
+  }
+}
+// Global variables
+
+joker joker1,joker2;
+
+float speed;
+
+// Setup and Draw functions
+
+void setup() {
+  size(1000, 800); 
+  fill(0);
+  joker1 = new joker(300, 400, 10, 20, 0, 0); // controlled by keys
+  joker2 = new joker(500, 600, 0, 0, 5, 6); // moves automatically
+
+}
+void draw() {
+  background(128);
+  joker1.act();
+  joker1.move();
+  joker2.act();
+  joker2.move();
+}
+
+// Key events
+
+void keyPressed() {
+  updateKey(keyCode, true);
+}
+
+void keyReleased() {
+  updateKey(keyCode, false);
+}
+
+void updateKey(int key, boolean isPressed) {
+  speed = isPressed ? 1 : 0;
+  if (key == 'a' || key == 'A') {
+    joker1.left = isPressed;
+  } else if (key == 'd' || key == 'D') {
+    joker1.right = isPressed;
+  } else if (key == 'w' || key == 'W') {
+    joker1.up = isPressed;
+  } else if (key == 's' || key == 'S') {
+    joker1.down = isPressed;
+  }
+}
