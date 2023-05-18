@@ -1,0 +1,228 @@
+class joker {
+  float x, y, speedX, speedY, dx, dy;
+  boolean left, right, up, down;
+
+  joker(float x, float y, float speedX, float speedY, float dx, float dy) {
+    this.x = x;
+    this.y = y;
+    this.speedX = speedX;
+    this.speedY = speedY;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  void act() {
+// 얼굴
+    fill(255, 235, 205);
+    ellipse(x, y, 200, 200);
+
+    // 코
+    fill(255, 0, 0);
+    circle(x, y, 50);
+
+    // 귀
+    fill(0, 255, 0);
+    ellipse(x - 110, y - 60, 50, 50);
+    ellipse(x + 110, y - 60, 50, 50);
+
+    // 눈
+    fill(255);
+    ellipse(x - 70, y, 50, 50);
+    ellipse(x + 70, y, 50, 50);
+    fill(0);
+    ellipse(x - 70, y, 20, 20);
+    ellipse(x + 70, y, 20, 20);
+
+    // 입
+    stroke(0);
+    strokeWeight(3);
+    arc(x, y + 50, 100, 80, 0, PI);
+
+    // 몸통
+    fill(255, 0, 0);
+    rect(x - 50, y + 100, 100, 100, 20);
+
+    // 팔
+    fill(0, 255, 0);
+    rect(x - 140, y + 100, 60, 30, 20);
+    rect(x - 90, y + 100, 60, 30, 20);
+    rect(x + 30, y + 100, 60, 30, 20);
+    rect(x + 80, y + 100, 60, 30, 20);
+  }
+
+  void move() {
+    if (dx == 0 && dy == 0) { // controlled by keys
+      if (left && x > 0) {
+        x -= speedX;
+      }
+      if (right && x < width) {
+        x += speedX;
+      }
+      if (up && y > 0) {
+        y -= speedY;
+      }
+      if (down && y < height) {
+        y += speedY;
+      }
+    } else { // moves automatically
+      x += dx;
+      y += dy;
+      // Bounce if the joker hits the edge of the window
+      if (x > width || x < 0) dx = -dx;
+      if (y > height || y < 0) dy = -dy;
+    }
+  }
+}
+class pinkpig {
+  float x, y, s;
+  float dx, dy; // Velocity in x and y directions
+
+  pinkpig(float x, float y, float s, float dx, float dy) {
+    this.x = x;
+    this.y = y;
+    this.s = s;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  void elps (float a, float b, float c) {
+    ellipse(x-a, y-b, 10*c, 10*c);
+  }
+
+  void display() {
+    fill(245, 192, 196);
+    ellipse(x, y, 20*s, 15*s);
+    fill(255, 255, 255);
+    elps(0,0,9);
+    fill(0, 0, 0);
+    elps(20,0,2);
+    elps(-20,0,2);
+    fill(0, 0, 0);
+    elps(40,40,0.5);
+    elps(-40,40,0.5);
+    fill(245, 192, 196);
+    triangle(x-50, y-75, x-25, y-90, x-50, y-105);
+    triangle(x+50, y-75, x+25, y-90, x+50, y-105);
+    fill(255);
+    curve(x-30,y+50, x-20,y+60, x+20,y+60, x+30,y+50);
+  }
+
+  void moveTo(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  void move() {
+    x += dx;
+    y += dy;
+    // If the pig hits the edge of the window, make it bounce
+    if (x > width || x < 0) dx = -dx;
+    if (y > height || y < 0) dy = -dy;
+  }
+}
+class angrybird {
+  // constructor
+  angrybird(float x, float y, float speedX, float speedY){
+    this.x = x;
+    this.y = y;
+    this.speedX = speedX;
+    this.speedY = speedY;
+  }
+
+  // member data
+  float x, y, z = 100, speedX, speedY;
+
+  void moveauto() {
+    x += speedX;
+    y += speedY;
+
+    // If the bird hits the edge of the window, make it bounce
+    if (x > width || x < 0) speedX = -speedX;
+    if (y > height || y < 0) speedY = -speedY;
+  }
+
+  // member function
+  void show() {
+    fill(255,0,0);
+      strokeWeight(2);
+      ellipse(x-z/7.5,y-z/2+z/75,z/3,z/7.5);
+      ellipse(x-z/30,y-z/2+z/75,z/7.5,z/3);
+      fill(0,0,0);
+      quad(x-z/2-z/7.5,y-z/15, x-z/2-z/7.5,y+z/30, x-z/2+z/50, y+z/50, x-z/2+z/30, y-z/18.75);
+      quad(x-z/1.875,y-z/6.52, x-z/2.14,y-z/18.75, x-z/2,y-z/50, x-z/1.76, y-z/8.33);
+      quad(x-z/1.76,y+z/11.5, x-z/2,y-z/50, x-z/2.14,y+z/50, x-z/1.875, y+z/8.33);
+      fill(255,0,0);
+      circle(x,y,z);
+      strokeWeight(1);
+      fill(255,255,255);
+      circle(x+z/15,y,z/4);
+      circle(x+z/3.2,y,z/4);
+      fill(0);
+      circle(x+z/10,y,z/10);
+      circle(x+z/3.4,y,z/10);
+      fill(255,255,0);
+      triangle(x+z/30,y+z/5,x+z/2.7,y+z/4.6,x+z/5.35,y+z/18.75);
+      triangle(x+z/30,y+z/5,x+z/3.33,y+z/4.68,x+z/5.35,y+z/3.33);
+      fill(0,0,0);
+      quad(x-z/25,y-z/4, x+z/4.7,y-z/10, x+z/5.55,y-z/30, x-z/11.5,y-z/6);
+      quad(x+z/6,y-z/10, x+z/2.2,y-z/4.05, x+z/2,y-z/6, x+z/5,y-z/30);
+  }
+}
+// Global variables
+
+joker joker1,joker2;
+pinkpig pig1, pig2;
+angrybird bird1,bird2;
+float speed;
+
+// Setup and Draw functions
+
+void setup() {
+  size(1000, 800); 
+  fill(0);
+  joker1 = new joker(300, 400, 10, 20, 0, 0); // controlled by keys
+  joker2 = new joker(500, 600, 0, 0, 5, 6); // moves automatically
+  pig1 = new pinkpig(200, 200, 10, 0, 0); // stationary at first
+  pig2 = new pinkpig(100, 100, 10, 2, 3); // moves automatically
+  bird1 = new angrybird(200, 200, 10, 3); // moves automatically
+  bird2 = new angrybird(400, 400, 5, 8); // moves automatically
+}
+
+void draw() {
+  background(128);
+  joker1.act();
+  joker1.move();
+  joker2.act();
+  joker2.move();
+  pig1.display();
+  pig1.moveTo(mouseX, mouseY);
+  pig2.display();
+  pig2.move(); // Update the position of the automatic pig
+  bird1.show();
+  bird1.moveauto();
+  bird2.show();
+  bird2.moveauto();
+}
+
+// Key events
+
+void keyPressed() {
+  updateKey(keyCode, true);
+}
+
+void keyReleased() {
+  updateKey(keyCode, false);
+}
+
+void updateKey(int key, boolean isPressed) {
+  speed = isPressed ? 1 : 0;
+  if (key == 'a' || key == 'A') {
+    joker1.left = isPressed;
+  } else if (key == 'd' || key == 'D') {
+    joker1.right = isPressed;
+  } else if (key == 'w' || key == 'W') {
+    joker1.up = isPressed;
+  } else if (key == 's' || key == 'S') {
+    joker1.down = isPressed;
+  }
+}
