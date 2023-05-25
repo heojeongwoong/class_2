@@ -1,0 +1,163 @@
+class angrybird {
+  // constructor
+  angrybird(float x, float y){
+    this.x = x;
+    this.y = y;
+  }
+  // member data
+  float x, y, z = 100;
+
+  // member function
+  void show() {
+    head();
+    tail();
+    body();
+    eye_white();
+    eye_black();
+    beek();
+    eye_brow();
+    beard();
+    wrinkle();
+  }
+  void head(){
+    fill(255,0,0);
+    strokeWeight(2);
+    ellipse(x-z/7.5,y-z/2+z/75,z/3,z/7.5);
+    ellipse(x-z/30,y-z/2+z/75,z/7.5,z/3);
+  }
+  void tail(){
+    fill(0,0,0);
+    quad(x-z/2-z/7.5,y-z/15, x-z/2-z/7.5,y+z/30, x-z/2+z/50, y+z/50, x-z/2+z/30, y-z/18.75);
+    quad(x-z/1.875,y-z/6.52, x-z/2.14,y-z/18.75, x-z/2,y-z/50, x-z/1.76, y-z/8.33);
+    quad(x-z/1.76,y+z/11.5, x-z/2,y-z/50, x-z/2.14,y+z/50, x-z/1.875, y+z/8.33);
+  }
+  void body(){
+    fill(255,0,0);
+    circle(x,y,z);
+    strokeWeight(1);
+  }
+  void eye_white(){
+    fill(255,255,255);
+    circle(x+z/15,y,z/4);
+    circle(x+z/3.2,y,z/4);
+  }
+  void eye_black(){
+    fill(0);
+    circle(x+z/10,y,z/10);
+    circle(x+z/3.4,y,z/10);
+  }
+  void beek(){
+    fill(255,255,0);
+    triangle(x+z/30,y+z/5,x+z/2.7,y+z/4.6,x+z/5.35,y+z/18.75);
+    triangle(x+z/30,y+z/5,x+z/3.33,y+z/4.68,x+z/5.35,y+z/3.33);
+  }
+  void eye_brow(){
+    fill(0,0,0);
+    quad(x-z/25,y-z/4, x+z/4.7,y-z/10, x+z/5.55,y-z/30, x-z/11.5,y-z/6);
+    quad(x+z/6,y-z/10, x+z/2.2,y-z/4.05, x+z/2,y-z/6, x+z/5,y-z/30);
+  }
+  void beard() {}
+  void wrinkle(){}
+}
+
+class baby_angrybird extends angrybird {
+  // constructor
+  baby_angrybird(float x, float y) {
+    super(x, y); // calling the constructor of the parent class
+    z = z / 2; // reducing the size of the bird 
+  }
+  void body(){
+    fill(255,255,0);
+    circle(x,y,z);
+    strokeWeight(1);
+    }
+}
+
+class old_angrybird extends angrybird {
+  // constructor
+  old_angrybird(float x, float y) {
+    super(x, y); // calling the constructor of the parent class
+  }
+  // member function
+  void head(){
+    fill(128); // gray color
+    strokeWeight(2);
+    ellipse(x-z/7.5,y-z/2+z/75,z/3,z/7.5);
+    ellipse(x-z/30,y-z/2+z/75,z/7.5,z/3);
+  }
+  void body(){
+    fill(128);
+    circle(x,y,z);
+    strokeWeight(1);
+  }
+  void eye_black(){
+    fill(0);
+    circle(x+z/10,y,z/20);
+    circle(x+z/3.4,y,z/20);
+  }
+  void beek(){
+    fill(255,175,0);
+    triangle(x+z/30,y+z/5,x+z/2.7,y+z/4.6,x+z/5.35,y+z/18.75);
+    triangle(x+z/30,y+z/5,x+z/3.33,y+z/4.68,x+z/5.35,y+z/3.33);
+  }
+  void eye_brow(){
+    fill(0);
+    quad(x-z/25,y-z/4, x+z/4.7,y-z/10, x+z/5.55,y-z/30, x-z/11.5,y-z/6);
+    quad(x+z/6,y-z/10, x+z/2.2,y-z/4.05, x+z/2,y-z/6, x+z/5,y-z/30);
+  }
+  void beard() {
+    fill(0);
+    triangle(x, y+z/3, x+z/3, y+z/3, x+z/6, y+z/2);
+  }
+  void wrinkle(){
+    stroke(0);
+    strokeWeight(2);
+    line(x+z/15,y-z/4,x+z/3 , y-z/4);
+    line(x+z/15,y-z/4 - z/20,x+z/3 , y-z/4 - z/20);
+    strokeWeight(1);
+  }
+}
+
+void setup() {
+  size(400, 400);
+  background(255);
+  
+  // Create baby angrybird objects 
+  baby_angrybird[] babyBirds = new baby_angrybird[3];
+  for (int i = 0; i < 3; i++) {
+    float x = random(width);
+    float y = random(height/3);
+    babyBirds[i] = new baby_angrybird(x, y);
+  }
+  
+  // Create angrybird objects
+  angrybird[] angryBirds = new angrybird[3];
+  for (int i = 0; i < 3; i++) {
+    float x = random(width);
+    float y = random(height/3, height*2/3);
+    angryBirds[i] = new angrybird(x, y);
+  }
+  
+  // Create old angrybird objects 
+  old_angrybird[] oldBirds = new old_angrybird[3];
+  for (int i = 0; i < 3; i++) {
+    float x = random(width);
+    float y = random(height*2/3, height);
+    oldBirds[i] = new old_angrybird(x, y);
+  }
+  
+  // baby angrybird objects
+  for (int i = 0; i < 3; i++) {
+    babyBirds[i].show();
+  }
+  
+  // angrybird objects
+  for (int i = 0; i < 3; i++) {
+    angryBirds[i].show();
+  }
+  
+  // old angrybird objects
+  for (int i = 0; i < 3; i++) {
+    oldBirds[i].show();
+  }
+}
