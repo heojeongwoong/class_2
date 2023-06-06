@@ -1,0 +1,112 @@
+// Extra point
+#include <iostream>
+#include <vector>
+#include <Windows.h>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class PacketQueue {
+private:
+    vector<int> queue;
+    int NI;
+    int NO;
+    int capacity;
+
+public:
+    PacketQueue(int NI, int NO, int capacity) : NI(NI), NO(NO), capacity(capacity) {}
+
+    void push(int val) {
+        if (queue.size() < capacity) {
+            queue.push_back(val);
+        }
+    }
+
+    void pop() {
+        if (queue.size() != 0) {
+            queue.erase(queue.begin());
+        }
+    }
+
+    int size() {
+        return queue.size();
+    }
+
+    int front() {
+        if (queue.size() != 0) {
+            return queue.front();
+        }
+        return -1;
+    }
+
+    int getCapacity() {
+        return capacity;
+    }
+
+    int getNI() {
+        return NI;
+    }
+
+    int getNO() {
+        return NO;
+    }
+};
+
+int main() {
+    // Create multiple queues
+    vector<PacketQueue> queues;
+    queues.push_back(PacketQueue(50, 30, 100));
+    queues.push_back(PacketQueue(70, 30, 100));
+    queues.push_back(PacketQueue(50, 50, 100));
+
+    for (int q = 0; q < queues.size(); q++) {
+        int elapsedSeconds = 0;
+        int T = 1;  // 1 sec
+        int NofPackets[120] = { 0 };
+        ofstream myfile("NofPackets" + to_string(q + 1) + ".txt");
+
+        while (elapsedSeconds < 120) {  // for 2 minutes
+            Sleep(T * 1000);  // milliseconds
+            int ni = rand() % queues[q].getNI();
+            int no = rand() % queues[q].getNO();
+
+            if (queues[q].size() + ni > queues[q].getCapacity()) {
+                ni = queues[q].getCapacity() - queues[q].size();
+            }
+
+            for (int i = 0; i < ni; i++) {
+                int packet = rand() % 20;
+                queues[q].push(packet);
+            }
+
+            for (int i = 0; i < no; i++) {
+                if (queues[q].size() != 0) {
+                    queues[q].pop();
+                }
+            }
+
+            NofPackets[elapsedSeconds] = queues[q].size();
+            elapsedSeconds += T;
+        }
+
+        for (int i = 0; i < 120; i++) {
+            myfile << i + 1 << " " << NofPackets[i] << "\n";
+        }
+        myfile.close();
+
+        // Calculate and print average and peak values
+        int sum = 0;
+        int peak = NofPackets[0];
+        for (int i = 0; i < 120; i++) {
+            sum += NofPackets[i];
+            if (NofPackets[i] > peak) {
+                peak = NofPackets[i];
+            }
+        }
+        double average = static_cast<double>(sum) / 120;
+        cout << "Queue " << q + 1 << " AVERAGE: " << average << endl;
+        cout << "Queue " << q + 1 << " MAX_VALUE: " << peak << endl;
+    }
+
+    return 0;
+}
